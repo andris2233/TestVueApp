@@ -6,14 +6,16 @@
         </div>
         
         <ul>
+            <Loader v-if="loading" />
             <TodoItem 
+                v-else-if="todos.length !== 0"
                 v-for="(todo, i) of todos"
                 v-bind:todo="todo"
                 v-bind:index="i"
                 v-bind:key="todo.id"
                 v-on:remove-todo="removeTodo"
             />
-            <div v-if="todos.length === 0" class="empty-todos">
+            <div v-else class="empty-todos">
                 Дела отсутствуют!
             </div>
         </ul>
@@ -23,10 +25,11 @@
 <script>
 import TodoItem from '@/components/TodoItem';
 import TodoForm from '@/components/TodoForm';
+import Loader from '@/components/Loader';
 export default {
-    props: ['todos'],
+    props: ['todos', 'loading'],
     components: {
-        TodoItem, TodoForm
+        TodoItem, TodoForm, Loader
     },
     methods: {
         removeTodo(id){

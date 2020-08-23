@@ -5,6 +5,7 @@
     <div class="content">
       <TodoList 
         v-bind:todos="todos"
+        v-bind:loading="loading"
         @remove-todo="removeTodo"
         @create-todo="createTodo"
       />
@@ -14,12 +15,13 @@
 </template>
 
 <script>
-import TodoList from '@/components/TodoList'
+import TodoList from '@/components/TodoList';
 export default {
   name: 'App',
   data(){
     return {
-      todos: []
+      todos: [],
+      loading: true
     }
   },
   components: {
@@ -28,7 +30,13 @@ export default {
   mounted(){
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
     .then(response => response.json())
-    .then(json => this.todos = json);
+    .then(json => {
+      setTimeout(() => {
+        this.todos = json;
+        this.loading = false;
+      }, 1000);
+      
+      });
   },
   methods:{
     removeTodo(id){
