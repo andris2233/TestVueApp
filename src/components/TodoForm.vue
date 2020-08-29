@@ -62,8 +62,8 @@ button{
     outline: none;
     font-weight: bold;
     transition: all .2s ease;
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

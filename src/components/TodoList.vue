@@ -2,14 +2,19 @@
     <div class="wrapper">
         <div class="header">
             <h2>Todo App</h2>
+            <select v-model="filter">
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="not-completed">Not completed</option>
+            </select>
             <TodoForm @create-todo="createTodo"/>
         </div>
         
         <ul>
             <Loader v-if="loading" />
             <TodoItem 
-                v-else-if="todos.length !== 0"
-                v-for="(todo, i) of todos"
+                v-else-if="filteredTodos.length !== 0"
+                v-for="(todo, i) of filteredTodos"
                 v-bind:todo="todo"
                 v-bind:index="i"
                 v-bind:key="todo.id"
@@ -30,6 +35,24 @@ export default {
     props: ['todos', 'loading'],
     components: {
         TodoItem, TodoForm, Loader
+    },
+    data(){
+        return {
+            filter: 'all'
+        }
+    },
+    computed: {
+        filteredTodos: function(){
+            if(this.filter === 'all'){
+                return this.$props.todos;
+            }
+
+            if(this.filter === 'completed'){
+                return this.$props.todos.filter(item => item.completed);
+            }
+
+            return this.$props.todos.filter(item => !item.completed);
+        }
     },
     methods: {
         removeTodo(id){
@@ -83,5 +106,14 @@ h2{
     align-items: flex-end;
     justify-content: space-between;
     padding: 5px 7px 8px 7px;
+}
+
+select {
+    border: 0;
+    border-bottom: 1px solid white;
+    background: #3BA8C6;
+    padding: 5px;
+    outline: none;
+    color: white;
 }
 </style>

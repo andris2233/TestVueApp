@@ -31,11 +31,8 @@ export default {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
     .then(response => response.json())
     .then(json => {
-      setTimeout(() => {
         this.todos = json;
         this.loading = false;
-      }, 1000);
-      
       });
   },
   methods:{
